@@ -1,0 +1,12 @@
+Subject: How do you like your new "{product_name}", {user_name}?
+
+Hi {user_name},
+
+We hope you are enjoying your recent purchase of "{product_name}" from our {preferred_category} collection!
+
+Could you take 2 minutes to share your honest feedback? Your review helps us and other customers in the community. The item was priced at ${product_price}.
+
+Click here to leave a review and let us know what you think!
+
+Warm regards,
+The SmartMail Team

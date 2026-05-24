@@ -1,0 +1,12 @@
+Subject: We miss you, {user_name}! Here is {discount_offer} off.
+
+Hi {user_name},
+
+It has been {days_inactive} days since you last visited us. We miss having you around!
+
+We'd love to invite you back to explore our latest items, especially in the {preferred_category} category. We think you'll love the "{product_name}", available now for just ${product_price}!
+
+To make your return even sweeter, use this exclusive offer: {discount_offer} off your next purchase.
+
+Warm regards,
+The SmartMail Team

@@ -1,0 +1,1 @@
+# SmartMail AI+ backend application
