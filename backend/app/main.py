@@ -32,14 +32,14 @@ async def lifespan(app: FastAPI):
     # Start event worker in the background
     app.state.worker_task = asyncio.create_task(start_event_worker(app.state.redis))
 
-    # Start scheduler
-    app.state.scheduler = await start_scheduler()
+    # Start scheduler (DISABLED to prevent automated email sends)
+    # app.state.scheduler = await start_scheduler()
 
     yield
 
     # Shutdown: Clean up background tasks
-    # 1. Stop scheduler
-    await shutdown_scheduler(app.state.scheduler)
+    # 1. Stop scheduler (DISABLED)
+    # await shutdown_scheduler(app.state.scheduler)
 
     # 2. Cancel event worker task
     app.state.worker_task.cancel()
