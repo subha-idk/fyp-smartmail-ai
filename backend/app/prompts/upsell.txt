@@ -2,9 +2,9 @@ Subject: Exclusive offer for our {user_tier} members, {user_name}!
 
 Hi {user_name},
 
-Thank you for being a valued member of our store! As a {user_tier} tier customer with ${total_spend} in total spend, you qualify for exclusive premium selections.
+Thank you for being a valued member of our store! As a {user_tier} tier customer with ₹{total_spend} in total spend, you qualify for exclusive premium selections.
 
-We'd love to showcase "{product_name}" from the {preferred_category} category. This premium product is available for ${product_price} and offers the absolute best quality we have to offer.
+We'd love to showcase "{product_name}" from the {preferred_category} category. This premium product is available for ₹{product_price} and offers the absolute best quality we have to offer.
 
 Upgrade your experience and check it out today!
 

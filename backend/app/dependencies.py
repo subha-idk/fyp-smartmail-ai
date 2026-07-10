@@ -59,3 +59,20 @@ async def check_rate_limit(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
             detail="Rate limit exceeded. Maximum 1000 requests per minute.",
         )
+
+
+async def verify_presenter_passcode(
+    x_presenter_passcode: str | None = Header(None, alias="X-Presenter-Passcode")
+) -> str:
+    """Verifies that the request contains a valid presenter passcode header."""
+    if not x_presenter_passcode:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing Presenter Passcode",
+        )
+    if x_presenter_passcode != settings.PRESENTER_PASSCODE:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Presenter Passcode",
+        )
+    return x_presenter_passcode

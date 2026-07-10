@@ -39,3 +39,10 @@ Thumbs.db
 # Context
 context/
 context
+
+# Scratch files
+backend/scratch/
+
+# ML datasets
+backend/ml/*.csv
+

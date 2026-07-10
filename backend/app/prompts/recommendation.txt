@@ -4,7 +4,7 @@ Hi {user_name},
 
 Based on your interest in {preferred_category}, we thought you might like some of our top picks!
 
-We highly recommend checking out "{product_name}". It is one of our most popular items in the {preferred_category} collection, and it is currently available for just ${product_price}.
+We highly recommend checking out "{product_name}". It is one of our most popular items in the {preferred_category} collection, and it is currently available for just ₹{product_price}.
 
 We hope you find something you love!
 

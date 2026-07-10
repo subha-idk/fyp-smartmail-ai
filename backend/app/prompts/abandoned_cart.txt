@@ -7,7 +7,7 @@ It looks like you left some items in your cart {hours_since_abandoned} hours ago
 Your cart contains:
 {cart_items}
 
-We would hate for you to miss out on these! We highly recommend completing your purchase, especially for "{product_name}" in our {preferred_category} category, priced at only ${product_price}.
+We would hate for you to miss out on these! We highly recommend completing your purchase, especially for "{product_name}" in our {preferred_category} category, priced at only ₹{product_price}.
 
 Click here to complete your order and secure your items today!
 

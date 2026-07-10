@@ -23,6 +23,7 @@ class Settings(BaseSettings):
 
     # ── Auth ──────────────────────────────────────────────────────────────
     API_SECRET_KEY: str = "your-secret-key-here"
+    PRESENTER_PASSCODE: str = "demo2026"
 
     # ── Gemini API ────────────────────────────────────────────────────────
     GEMINI_API_KEY: str = ""

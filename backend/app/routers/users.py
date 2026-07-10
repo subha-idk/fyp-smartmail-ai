@@ -1,12 +1,12 @@
 """Users and user profiles router — implements Section 4 and 9 of CONTEXT.md."""
 
 import uuid
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Body
 from sqlalchemy import func, select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.dependencies import check_rate_limit, get_db, verify_api_key
+from app.dependencies import check_rate_limit, get_db, verify_api_key, verify_presenter_passcode
 from app.models.user import User
 from app.models.user_profile import UserProfile
 from app.services.analytics_service import AnalyticsService
@@ -137,3 +137,35 @@ async def get_user_profile(
         "rfm_monetary": float(profile.rfm_monetary) if profile.rfm_monetary is not None else None,
         "updated_at": profile.updated_at.isoformat(),
     }
+
+
+from pydantic import BaseModel
+
+class DemoSettingsPayload(BaseModel):
+    email: str
+    name: str
+
+@router.put(
+    "/{id}/email",
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(verify_api_key), Depends(check_rate_limit), Depends(verify_presenter_passcode)],
+)
+async def update_user_email(
+    id: uuid.UUID,
+    payload: DemoSettingsPayload,
+    db: AsyncSession = Depends(get_db),
+):
+    """Updates the email address and name of a user for demo purposes."""
+    stmt = select(User).where(User.id == id)
+    result = await db.execute(stmt)
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+    user.email = payload.email
+    user.name = payload.name
+    await db.commit()
+    return {"status": "success", "email": user.email, "name": user.name}
+

@@ -14,13 +14,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
 
 interface AnalyticsChartsProps {
   summary: {
@@ -37,22 +30,22 @@ interface AnalyticsChartsProps {
   };
 }
 
-const DARK_TOOLTIP_STYLE = {
-  backgroundColor: "rgba(10,15,30,0.95)",
-  border: "1px solid rgba(99,102,241,0.25)",
-  borderRadius: "0.5rem",
-  boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
-  color: "#f1f5f9",
-  fontSize: "12px",
+const TOOLTIP_STYLE = {
+  backgroundColor: "var(--color-surface)",
+  border: "1px solid var(--color-border)",
+  borderRadius: "4px",
+  boxShadow: "var(--card-shadow)",
+  color: "var(--color-text)",
+  fontSize: "11px",
 };
 
-const LABEL_STYLE = { color: "#94a3b8", fontWeight: 600 };
+const LABEL_STYLE = { color: "var(--color-text)", fontWeight: 700 };
 
 const CHART_COLORS = {
-  views: "#6366f1",
-  carts: "#f59e0b",
-  purchases: "#10b981",
-  sent: "#6366f1",
+  views: "#0060ff",      // Zoho Blue
+  carts: "#fb641b",      // Flipkart Orange / Warm Accent
+  purchases: "#10b981",  // Success Emerald
+  sent: "#3b82f6",
   opened: "#10b981",
   clicked: "#8b5cf6",
   failed: "#ef4444",
@@ -134,14 +127,14 @@ export default function AnalyticsCharts({
   const renderCustomLegend = (props: any) => {
     const { payload } = props;
     return (
-      <div className="flex flex-wrap gap-3 justify-center mb-2">
+      <div className="flex flex-wrap gap-4 justify-center mb-2">
         {payload.map((entry: any, index: number) => (
-          <div key={index} className="flex items-center gap-1.5 text-xs">
+          <div key={index} className="flex items-center gap-1.5 text-xs font-semibold">
             <span
-              className="inline-block h-2 w-4 rounded-full"
+              className="inline-block h-2 w-3 rounded-sm"
               style={{ backgroundColor: entry.color }}
             />
-            <span className="text-slate-400">{entry.value}</span>
+            <span className="text-[var(--color-muted)]">{entry.value}</span>
           </div>
         ))}
       </div>
@@ -149,21 +142,23 @@ export default function AnalyticsCharts({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
       {/* Event Volume Line Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base font-semibold text-slate-200">
+      <div className="zoho-card">
+        <div className="px-5 py-4 border-b border-[var(--color-border)] bg-[var(--color-bg)] rounded-t-[5px]">
+          <h3 className="text-sm font-bold text-[var(--color-text)]">
             Funnel Event Volumes
-          </CardTitle>
-          <CardDescription>
+          </h3>
+          <p className="text-xs text-[var(--color-muted)] mt-0.5">
             Daily breakdown of product views, cart additions, and purchases.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+          </p>
+        </div>
+        
+        <div className="p-5">
           <div className="h-80 w-full">
             {mergedLineData.length === 0 ? (
-              <div className="flex h-full items-center justify-center text-sm text-slate-500">
+              <div className="flex h-full items-center justify-center text-xs text-[var(--color-muted)]">
                 No event history available.
               </div>
             ) : (
@@ -175,23 +170,23 @@ export default function AnalyticsCharts({
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
-                    stroke="#1e293b"
+                    stroke="var(--color-border)"
                   />
                   <XAxis
                     dataKey="formattedDate"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: "#94a3b8", fontSize: 11 }}
+                    tick={{ fill: "var(--color-muted)", fontSize: 10 }}
                   />
                   <YAxis
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: "#94a3b8", fontSize: 11 }}
+                    tick={{ fill: "var(--color-muted)", fontSize: 10 }}
                   />
                   <Tooltip
-                    contentStyle={DARK_TOOLTIP_STYLE}
+                    contentStyle={TOOLTIP_STYLE}
                     labelStyle={LABEL_STYLE}
-                    cursor={{ stroke: "rgba(99,102,241,0.2)", strokeWidth: 1 }}
+                    cursor={{ stroke: "var(--color-primary)", strokeOpacity: 0.15, strokeWidth: 1 }}
                   />
                   <Legend content={renderCustomLegend} />
                   <Line
@@ -199,7 +194,7 @@ export default function AnalyticsCharts({
                     dataKey="views"
                     stroke={CHART_COLORS.views}
                     strokeWidth={2}
-                    dot={{ r: 3, stroke: CHART_COLORS.views, strokeWidth: 1, fill: "#0f1729" }}
+                    dot={{ r: 3, stroke: CHART_COLORS.views, strokeWidth: 1.5, fill: "var(--color-surface)" }}
                     name="Product Views"
                   />
                   <Line
@@ -207,7 +202,7 @@ export default function AnalyticsCharts({
                     dataKey="carts"
                     stroke={CHART_COLORS.carts}
                     strokeWidth={2}
-                    dot={{ r: 3, stroke: CHART_COLORS.carts, strokeWidth: 1, fill: "#0f1729" }}
+                    dot={{ r: 3, stroke: CHART_COLORS.carts, strokeWidth: 1.5, fill: "var(--color-surface)" }}
                     name="Cart Adds"
                   />
                   <Line
@@ -215,30 +210,31 @@ export default function AnalyticsCharts({
                     dataKey="purchases"
                     stroke={CHART_COLORS.purchases}
                     strokeWidth={2}
-                    dot={{ r: 3, stroke: CHART_COLORS.purchases, strokeWidth: 1, fill: "#0f1729" }}
+                    dot={{ r: 3, stroke: CHART_COLORS.purchases, strokeWidth: 1.5, fill: "var(--color-surface)" }}
                     name="Purchases"
                   />
                 </LineChart>
               </ResponsiveContainer>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Email Delivery Bar Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base font-semibold text-slate-200">
+      <div className="zoho-card">
+        <div className="px-5 py-4 border-b border-[var(--color-border)] bg-[var(--color-bg)] rounded-t-[5px]">
+          <h3 className="text-sm font-bold text-[var(--color-text)]">
             Email Delivery Outcomes
-          </CardTitle>
-          <CardDescription>
+          </h3>
+          <p className="text-xs text-[var(--color-muted)] mt-0.5">
             Distribution of campaign outcomes across all generated emails.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+          </p>
+        </div>
+        
+        <div className="p-5">
           <div className="h-80 w-full">
             {summary.total_emails === 0 ? (
-              <div className="flex h-full items-center justify-center text-sm text-slate-500">
+              <div className="flex h-full items-center justify-center text-xs text-[var(--color-muted)]">
                 No emails dispatched yet.
               </div>
             ) : (
@@ -250,26 +246,26 @@ export default function AnalyticsCharts({
                   <CartesianGrid
                     strokeDasharray="3 3"
                     vertical={false}
-                    stroke="#1e293b"
+                    stroke="var(--color-border)"
                   />
                   <XAxis
                     dataKey="name"
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: "#94a3b8", fontSize: 11 }}
+                    tick={{ fill: "var(--color-muted)", fontSize: 10 }}
                   />
                   <YAxis
                     tickLine={false}
                     axisLine={false}
-                    tick={{ fill: "#94a3b8", fontSize: 11 }}
+                    tick={{ fill: "var(--color-muted)", fontSize: 10 }}
                     allowDecimals={false}
                   />
                   <Tooltip
-                    cursor={{ fill: "rgba(99,102,241,0.06)" }}
-                    contentStyle={DARK_TOOLTIP_STYLE}
+                    cursor={{ fill: "var(--color-primary)", fillOpacity: 0.04 }}
+                    contentStyle={TOOLTIP_STYLE}
                     labelStyle={LABEL_STYLE}
                   />
-                  <Bar dataKey="count" radius={[4, 4, 0, 0]} barSize={40}>
+                  <Bar dataKey="count" radius={[2, 2, 0, 0]} barSize={36}>
                     {barChartData.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
@@ -282,8 +278,9 @@ export default function AnalyticsCharts({
               </ResponsiveContainer>
             )}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+      
     </div>
   );
 }

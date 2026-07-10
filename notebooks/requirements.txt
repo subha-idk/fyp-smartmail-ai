@@ -1,0 +1,9 @@
+# Required libraries for E-Commerce Customer Analytics Notebook
+# Compatible with backend's NumPy 2.x environment
+scikit-learn==1.6.0
+pandas==2.2.3
+numpy==2.2.1
+matplotlib>=3.9.0
+seaborn>=0.13.1
+jupyter>=1.0.0
+ipykernel>=6.28.0

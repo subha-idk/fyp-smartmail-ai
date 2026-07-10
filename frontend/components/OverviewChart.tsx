@@ -18,11 +18,14 @@ interface OverviewChartProps {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-lg border border-[rgba(99,102,241,0.25)] bg-[rgba(10,15,30,0.95)] p-3 shadow-glass text-xs">
-        <p className="font-semibold text-slate-200 mb-1">{label}</p>
-        <p className="text-indigo-400">
+      <div 
+        className="zoho-card p-3 shadow-md text-xs border"
+        style={{ backgroundColor: "var(--color-surface)", borderColor: "var(--color-border)" }}
+      >
+        <p className="font-bold mb-1" style={{ color: "var(--color-text)" }}>{label}</p>
+        <p style={{ color: "var(--color-primary)" }} className="font-medium">
           Events:{" "}
-          <span className="font-bold text-slate-100">{payload[0].value}</span>
+          <span className="font-bold" style={{ color: "var(--color-text)" }}>{payload[0].value}</span>
         </p>
       </div>
     );
@@ -50,7 +53,7 @@ export default function OverviewChart({ data }: OverviewChartProps) {
 
   if (!data || data.length === 0) {
     return (
-      <div className="flex h-72 items-center justify-center text-sm text-slate-500">
+      <div className="flex h-72 items-center justify-center text-sm text-[var(--color-muted)]">
         No daily event data available.
       </div>
     );
@@ -64,42 +67,42 @@ export default function OverviewChart({ data }: OverviewChartProps) {
           margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
         >
           <defs>
-            <linearGradient id="indigoGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#6366f1" stopOpacity={0.25} />
-              <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+            <linearGradient id="primaryGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.2} />
+              <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid
             strokeDasharray="3 3"
             vertical={false}
-            stroke="#1e293b"
+            stroke="var(--color-border)"
           />
           <XAxis
             dataKey="formattedDate"
             tickLine={false}
             axisLine={false}
-            stroke="#475569"
-            tick={{ fill: "#94a3b8", fontSize: 11 }}
+            stroke="var(--color-muted)"
+            tick={{ fill: "var(--color-muted)", fontSize: 10 }}
           />
           <YAxis
             tickLine={false}
             axisLine={false}
-            stroke="#475569"
-            tick={{ fill: "#94a3b8", fontSize: 11 }}
+            stroke="var(--color-muted)"
+            tick={{ fill: "var(--color-muted)", fontSize: 10 }}
           />
           <Tooltip content={<CustomTooltip />} />
           <Area
             type="monotone"
             dataKey="count"
-            stroke="#6366f1"
+            stroke="var(--color-primary)"
             strokeWidth={2}
-            fill="url(#indigoGradient)"
-            dot={{ r: 4, stroke: "#6366f1", strokeWidth: 2, fill: "#0f1729" }}
+            fill="url(#primaryGradient)"
+            dot={{ r: 3, stroke: "var(--color-primary)", strokeWidth: 1.5, fill: "var(--color-surface)" }}
             activeDot={{
-              r: 6,
-              stroke: "#6366f1",
+              r: 5,
+              stroke: "var(--color-primary)",
               strokeWidth: 2,
-              fill: "#6366f1",
+              fill: "var(--color-primary)",
             }}
             name="Daily Events"
           />

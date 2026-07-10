@@ -113,6 +113,20 @@ async def weekly_retrain_job() -> None:
 
 async def campaign_trigger_job() -> None:
     """Scheduled job to check and trigger emails for eligible users (up to 50)."""
+    import redis.asyncio as aioredis
+    
+    redis_client = aioredis.from_url(settings.REDIS_URL, decode_responses=True)
+    try:
+        enabled = await redis_client.get("scheduler:autotrigger:enabled")
+        if enabled != "true":
+            logger.info("Scheduled campaign trigger job skipped: automatic email dispatch is DISABLED.")
+            return
+    except Exception as e:
+        logger.error("Failed to check scheduler status in Redis: %s. Skipping job for safety.", e)
+        return
+    finally:
+        await redis_client.close()
+
     logger.info("Starting scheduled campaign trigger job...")
     
     # 1. Calculate time thresholds

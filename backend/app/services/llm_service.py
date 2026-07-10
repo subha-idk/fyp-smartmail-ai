@@ -67,7 +67,7 @@ class LLMService:
             user_name = user.user.name
 
         product_name = product.name if product else "our featured products"
-        product_price = f"{product.price:.2f}" if product else "0.00"
+        product_price = f"{product.price * 80:.2f}" if product else "0.00"
         
         preferred_category = "items"
         if user.preferred_categories and len(user.preferred_categories) > 0:
@@ -124,7 +124,7 @@ class LLMService:
             user_tier = "Gold"
         elif spend >= 200.0:
             user_tier = "Silver"
-        total_spend = f"{spend:.2f}"
+        total_spend = f"{spend * 80:.2f}"
 
         # 3. Attempt Gemini generation
         try:
@@ -149,14 +149,32 @@ class LLMService:
                 "user_tier": user_tier,
                 "total_spend": total_spend,
             }
-            prompt = template_content.format(**variables)
+            prompt = (
+                f"Create a personalized {email_type} email for the customer based on these details:\n\n"
+                f"Customer Name: {user_name}\n"
+                f"Customer Tier: {user_tier}\n"
+                f"Customer Total Spend: ₹{total_spend}\n"
+                f"Preferred Category: {preferred_category}\n"
+                f"Days Inactive: {days_inactive} days\n"
+                f"Incentive Offer: {discount_offer}\n"
+                f"Cart Items: {cart_items}\n"
+                f"Hours since cart abandonment: {hours_since_abandoned} hours\n\n"
+                f"Recommended Product: \"{product_name}\" (Category: {preferred_category}, Price: ₹{product_price})\n\n"
+                f"Template Guideline (incorporate the core message of this but rewrite it dynamically to feel premium and human): \n"
+                f"\"\"\"\n{template_content.format(**variables)}\n\"\"\""
+            )
 
             system_instruction = (
-                "You are an expert email copywriter for an e-commerce brand. "
-                "Write a concise, personalized marketing email. "
-                "Return ONLY valid JSON with keys: subject (string), "
-                "html_body (valid HTML string), plain_body (string). "
-                "No markdown fences, no preamble."
+                "You are a premium e-commerce copywriter for 'SmartMail Plus' (an Indian premium marketplace). "
+                "Your goal is to write highly engaging, professional, and natural-looking marketing emails "
+                "tailored to the customer's shopping context. "
+                "Do NOT write rigid, dry templates. Write warm, personalized, conversational copy "
+                "that feels like it was written by a real CRM manager. "
+                "All prices must be written in Indian Rupees (e.g. ₹25,721 or ₹25,721.60). "
+                "Include a beautifully designed HTML body (html_body) with elegant typography, spacing, "
+                "and a clean call-to-action button, along with a text version (plain_body) and a compelling subject (subject). "
+                "Return ONLY a valid JSON object with keys: subject, html_body, and plain_body. "
+                "Do not include markdown code blocks, fences, or text outside the JSON."
             )
 
             # Invoke model
@@ -217,7 +235,7 @@ class LLMService:
                     with open(template_path, "r", encoding="utf-8") as f:
                         template_content = f.read()
                 else:
-                    template_content = "Subject: Special update from SmartMail\n\nHi {user_name},\n\nWe have a special recommendation for you: {product_name} for only ${product_price}."
+                    template_content = "Subject: Special update from SmartMail\n\nHi {user_name},\n\nWe have a special recommendation for you: {product_name} for only ₹{product_price}."
 
                 variables = {
                     "user_name": user_name,
@@ -240,7 +258,113 @@ class LLMService:
                     subject = lines[0].replace("Subject:", "").strip()
                     plain_body = "\n".join(lines[1:]).strip()
 
-                html_body = f"<html><body>{plain_body.replace('\n', '<br>')}</body></html>"
+                # Build a premium stylized HTML template for fallback
+                html_body = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f1f3f6;
+            margin: 0;
+            padding: 0;
+        }}
+        .container {{
+            max-width: 600px;
+            margin: 30px auto;
+            background: #ffffff;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #dbdbdb;
+        }}
+        .header {{
+            background-color: #2874f0;
+            padding: 20px;
+            text-align: center;
+            color: #ffffff;
+        }}
+        .header h1 {{
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }}
+        .content {{
+            padding: 30px 24px;
+            color: #212121;
+            line-height: 1.6;
+            font-size: 14px;
+        }}
+        .product-box {{
+            background: #f9f9f9;
+            border: 1px dashed #2874f0;
+            border-radius: 4px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }}
+        .product-title {{
+            font-size: 15px;
+            font-weight: bold;
+            color: #212121;
+            margin-bottom: 5px;
+        }}
+        .product-price {{
+            font-size: 18px;
+            font-weight: bold;
+            color: #388e3c;
+            margin: 10px 0;
+        }}
+        .cta-btn {{
+            display: inline-block;
+            background-color: #fb641b;
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 2px;
+            font-weight: bold;
+            font-size: 13px;
+            text-transform: uppercase;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }}
+        .footer {{
+            background-color: #f1f3f6;
+            padding: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #878787;
+            border-top: 1px solid #e0e0e0;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SmartMail Plus ★</h1>
+        </div>
+        <div class="content">
+            {plain_body.replace('\n', '<br>')}
+"""
+                if product:
+                    html_body += f"""
+            <div class="product-box">
+                <div class="product-title">{product_name}</div>
+                <div style="font-size: 11px; color: #878787; text-transform: uppercase; font-weight: bold;">{preferred_category}</div>
+                <div class="product-price">₹{product_price}</div>
+                <a href="{settings.FRONTEND_URL}/demo" class="cta-btn">View Special Offer</a>
+            </div>
+"""
+                html_body += f"""
+        </div>
+        <div class="footer">
+            <p>This is a simulated demo marketing email sent via SmartMail Plus storefront.</p>
+            <p>© 2026 SmartMail Plus. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>"""
 
                 # Log to db if session is provided
                 if self.db:

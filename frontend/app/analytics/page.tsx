@@ -21,30 +21,21 @@ export default async function AnalyticsPage() {
     return (
       <div className="space-y-6 animate-fade-in">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-100">
+          <h1 className="text-xl font-bold tracking-tight text-[var(--color-text)]">
             Analytics &amp; Performance
           </h1>
-          <p className="text-sm text-slate-500">
-            Analyze customer funnel conversions and monitor campaign dispatch
-            statuses.
+          <p className="text-xs text-[var(--color-muted)]">
+            Analyze customer funnel conversions and monitor campaign dispatch statuses.
           </p>
         </div>
-        <div
-          className="rounded-xl p-6 flex items-center gap-4"
-          style={{
-            background: "rgba(245,158,11,0.08)",
-            border: "1px solid rgba(245,158,11,0.25)",
-            backdropFilter: "blur(12px)",
-          }}
-        >
-          <AlertTriangle className="h-6 w-6 text-amber-400 shrink-0" />
+        <div className="zoho-card p-5 flex items-center gap-4 border-l-4 border-l-amber-500 bg-amber-500/5">
+          <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0" />
           <div>
-            <h3 className="font-semibold text-slate-100">
+            <h3 className="font-bold text-[var(--color-text)] text-sm">
               Backend Server Offline
             </h3>
-            <p className="text-xs text-slate-400 mt-0.5">
-              The analytics dashboard could not connect to the API server.
-              Please ensure the backend is running.
+            <p className="text-xs text-[var(--color-muted)] mt-0.5">
+              The analytics dashboard could not connect to the API server. Please ensure the backend is running.
             </p>
           </div>
         </div>
@@ -54,13 +45,12 @@ export default async function AnalyticsPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-100">
+      <div className="flex flex-col gap-1 border-b border-[var(--color-border)] pb-4">
+        <h1 className="text-xl font-bold tracking-tight text-[var(--color-text)]">
           Analytics &amp; Performance
         </h1>
-        <p className="text-sm text-slate-500">
-          Analyze customer funnel conversions and monitor campaign dispatch
-          statuses.
+        <p className="text-xs text-[var(--color-muted)]">
+          Analyze customer funnel conversions and monitor campaign dispatch statuses.
         </p>
       </div>
       <AnalyticsCharts
