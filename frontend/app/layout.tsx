@@ -49,7 +49,7 @@ export default function RootLayout({
   React.useEffect(() => {
     const checkHealth = async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+        const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
         const res = await fetch(`${base}/api/health`);
         if (res.ok) {
           const data = await res.json();

@@ -239,7 +239,7 @@ export default function DemoPage() {
   React.useEffect(() => {
     const fetchDemoUser = async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+        const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
         const res = await fetch(`${base}/api/users?q=Suvodip`, {
           headers: {
             "X-API-Key": process.env.NEXT_PUBLIC_API_KEY ?? "",
@@ -264,7 +264,7 @@ export default function DemoPage() {
 
     const fetchSchedulerStatus = async () => {
       try {
-        const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+        const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
         const res = await fetch(`${base}/api/send-email/scheduler/status`, {
           headers: {
             "X-API-Key": process.env.NEXT_PUBLIC_API_KEY ?? "",
@@ -288,7 +288,7 @@ export default function DemoPage() {
     setIsUpdatingEmail(true);
     setEmailStatus("idle");
     try {
-      const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+      const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
       const res = await fetch(`${base}/api/users/${DEMO_USER_UUID}/email`, {
         method: "PUT",
         headers: {
@@ -320,7 +320,7 @@ export default function DemoPage() {
     setIsTogglingScheduler(true);
     const targetState = !schedulerEnabled;
     try {
-      const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+      const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
       const res = await fetch(`${base}/api/send-email/scheduler/toggle`, {
         method: "POST",
         headers: {
@@ -350,7 +350,7 @@ export default function DemoPage() {
     setDispatchError("");
     setDispatchDetails(null);
     try {
-      const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+      const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
       const res = await fetch(`${base}/api/send-email/${DEMO_USER_UUID}?bypass_cooldown=true`, {
         method: "POST",
         headers: {
@@ -391,7 +391,7 @@ export default function DemoPage() {
     ]);
 
     try {
-      const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+      const base = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
       const res = await fetch(`${base}/api/track`, {
         method: "POST",
         headers: {

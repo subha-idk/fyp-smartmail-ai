@@ -5,7 +5,7 @@
  * From CONTEXT.md Section 7.
  */
 
-const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/+$/, "");
 const KEY = process.env.NEXT_PUBLIC_API_KEY ?? "";
 
 export async function apiFetch<T>(
